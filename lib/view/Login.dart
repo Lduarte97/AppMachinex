@@ -47,6 +47,10 @@ class _LoginState extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Image.asset(
+              'lib/assets/Catioro.jpg',
+              height: 100,
+            ),
             SizedBox(height: 20),
             Text(
               'Login',
