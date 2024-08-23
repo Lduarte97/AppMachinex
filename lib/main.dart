@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/view/Transacao.dart';
+import 'package:projeto/model/anuncio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Transacao(), // Define a tela inicial do aplicativo
+      home: Anuncio(), // Define a tela inicial do aplicativo
     );
   }
 }
