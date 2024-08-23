@@ -8,7 +8,6 @@ class Equipamento {
   final bool isAluguel;
   final double? valorVenda;
   final double? valorAluguel;
-  final String? imagePath; // Caminho da imagem
 
   Equipamento({
     required this.nome,
@@ -18,20 +17,103 @@ class Equipamento {
     required this.isAluguel,
     this.valorVenda,
     this.valorAluguel,
-    this.imagePath,
   });
 }
 
 class ListaEquipamentos extends StatelessWidget {
   final List<Equipamento> equipamentos = []; // Lista vazia para ser preenchida
 
+  void _navigateTo(BuildContext context, String route) {
+    Navigator.pushNamed(context, route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
-        title: Text('Lista de Equipamentos',
-            style: TextStyle(color: Colors.black)),
+        title: Text(
+          'Lista de Equipamentos',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue[700],
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Perfil do usuário'),
+              onTap: () {
+                _navigateTo(context, '/perfil');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: Text('Cadastro de equipamento'),
+              onTap: () {
+                _navigateTo(context, '/cadastro');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.monetization_on),
+              title: Text('Transações'),
+              onTap: () {
+                _navigateTo(context, '/transacoes');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('Pagamentos'),
+              onTap: () {
+                _navigateTo(context, '/pagamentos');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.announcement),
+              title: Text('Anúncios'),
+              onTap: () {
+                _navigateTo(context, '/anuncios');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('Avaliações'),
+              onTap: () {
+                _navigateTo(context, '/avaliacoes');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Sair'),
+              onTap: () {
+                Navigator.pop(context); // Implementar lógica de saída
+              },
+            ),
+          ],
+        ),
       ),
       body: equipamentos.isEmpty
           ? Center(
@@ -48,16 +130,11 @@ class ListaEquipamentos extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   child: ListTile(
                     contentPadding: EdgeInsets.all(16.0),
-                    leading: equipamento.imagePath != null
-                        ? Image.asset(
-                            equipamento.imagePath!,
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                          )
-                        : Icon(Icons.image, size: 80, color: Colors.grey),
-                    title: Text(equipamento.nome,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    leading: Icon(Icons.image, size: 80, color: Colors.grey),
+                    title: Text(
+                      equipamento.nome,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -68,16 +145,17 @@ class ListaEquipamentos extends StatelessWidget {
                         Text(
                           'Venda: ${equipamento.isVenda ? 'Sim (${equipamento.valorVenda != null ? 'R\$ ${equipamento.valorVenda!.toStringAsFixed(2)}' : 'N/A'})' : 'Não'}',
                           style: TextStyle(
-                              color: equipamento.isVenda
-                                  ? Colors.green
-                                  : Colors.red),
+                            color:
+                                equipamento.isVenda ? Colors.green : Colors.red,
+                          ),
                         ),
                         Text(
                           'Aluguel: ${equipamento.isAluguel ? 'Sim (${equipamento.valorAluguel != null ? 'R\$ ${equipamento.valorAluguel!.toStringAsFixed(2)}' : 'N/A'})' : 'Não'}',
                           style: TextStyle(
-                              color: equipamento.isAluguel
-                                  ? Colors.blue
-                                  : Colors.red),
+                            color: equipamento.isAluguel
+                                ? Colors.blue
+                                : Colors.red,
+                          ),
                         ),
                       ],
                     ),

@@ -10,10 +10,12 @@ class _CadastroState extends State<Cadastro> {
   final _emailController = TextEditingController();
   final _enderecoController = TextEditingController();
   final _cpfController = TextEditingController();
+  final _cnpjController = TextEditingController();
   final _senhaController = TextEditingController();
   final _dataNascimentoController = TextEditingController();
-  String _sexo = 'Masculino';
 
+  String _tipoDocumento = 'CPF';
+  String _sexo = 'Masculino';
   bool _obscureText = true;
 
   void _togglePasswordVisibility() {
@@ -27,13 +29,14 @@ class _CadastroState extends State<Cadastro> {
     final nome = _nomeController.text;
     final email = _emailController.text;
     final endereco = _enderecoController.text;
-    final cpf = _cpfController.text;
+    final cpf = _tipoDocumento == 'CPF' ? _cpfController.text : '';
+    final cnpj = _tipoDocumento == 'CNPJ' ? _cnpjController.text : '';
     final senha = _senhaController.text;
     final dataNascimento = _dataNascimentoController.text;
 
     // Implementar lógica de cadastro aqui
     print(
-        'Nome: $nome, Email: $email, Endereço: $endereco, CPF: $cpf, Data de Nascimento: $dataNascimento, Senha: $senha, Sexo: $_sexo');
+        'Nome: $nome, Email: $email, Endereço: $endereco, CPF: $cpf, CNPJ: $cnpj, Data de Nascimento: $dataNascimento, Senha: $senha, Sexo: $_sexo');
   }
 
   void _cancelar() {
@@ -79,14 +82,44 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ),
               SizedBox(height: 16),
-              TextField(
-                controller: _cpfController,
-                keyboardType: TextInputType.number,
+              DropdownButtonFormField<String>(
+                value: _tipoDocumento,
                 decoration: InputDecoration(
-                  labelText: 'CPF',
+                  labelText: 'Tipo de Documento',
                   border: OutlineInputBorder(),
                 ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _tipoDocumento = newValue!;
+                  });
+                },
+                items: <String>['CPF', 'CNPJ']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
+              SizedBox(height: 16),
+              if (_tipoDocumento == 'CPF')
+                TextField(
+                  controller: _cpfController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'CPF',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              if (_tipoDocumento == 'CNPJ')
+                TextField(
+                  controller: _cnpjController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'CNPJ',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               SizedBox(height: 16),
               TextField(
                 controller: _dataNascimentoController,
@@ -132,22 +165,37 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ),
               SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _cadastrar,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[700], // Cor do botão
-                  disabledBackgroundColor: Colors.white, // Cor do texto
-                ),
-                child: Text('Cadastrar'),
-              ),
-              SizedBox(height: 16),
-              TextButton(
-                onPressed: _cancelar,
-                style: TextButton.styleFrom(
-                  disabledBackgroundColor: Colors.black, // Cor do texto
-                  backgroundColor: Colors.white, // Cor do fundo
-                ),
-                child: Text('Cancelar'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: _cadastrar,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[700], // Cor do botão
+                      foregroundColor: Colors.white, // Cor do texto
+                      minimumSize: Size(150, 40), // Tamanho mínimo
+                    ),
+                    child: Text(
+                      'Cadastrar',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: _cancelar,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white, // Cor de fundo
+                      side: BorderSide(color: Colors.black), // Cor da borda
+                      minimumSize: Size(150, 40), // Tamanho mínimo
+                    ),
+                    child: Text(
+                      'Cancelar',
+                      style: TextStyle(
+                        color: Colors.black, // Cor do texto
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

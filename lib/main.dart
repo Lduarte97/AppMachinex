@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Login(),
-      //home: Cadastro(),
+      //home: Login(),
+      home: Cadastro(),
       //home: CadastroEquipamento(),
       //home: ListaEquipamentos(),
     );

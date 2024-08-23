@@ -17,15 +17,21 @@ class _LoginState extends State<Login> {
   }
 
   void _loginWithEmail() {
-    // Lógica de autenticação com e-mail e senha
     final email = _emailController.text;
     final password = _passwordController.text;
     print('Email: $email, Password: $password');
   }
 
   void _loginWithGoogle() {
-    // Lógica de autenticação com o Google
     print('Login com Google');
+  }
+
+  void _navigateToCadastro() {
+    print('Navegar para tela de cadastro');
+  }
+
+  void _navigateToRecuperarSenha() {
+    print('Navegar para tela de recuperação de senha');
   }
 
   @override
@@ -35,21 +41,32 @@ class _LoginState extends State<Login> {
         backgroundColor: Color.fromARGB(255, 73, 100, 232),
         title: Row(
           children: [
-            Icon(Icons.app_registration,
-                size: 40), // Logo (substitua por sua logo)
+            Icon(Icons.app_registration, size: 40),
             SizedBox(width: 10),
             Text('Machinex'),
           ],
         ),
       ),
-      body: Padding(
+      body: Container(
+        color: Color(
+            0xFFEEEEEE), // Cor de fundo ajustada para combinar com a imagem
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset(
-              'lib/assets/Catioro.jpg',
-              height: 100,
+            Center(
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 100,
+                child: ClipOval(
+                  child: Image.asset(
+                    'lib/assets/logo.png',
+                    height: 250,
+                    width: 250,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             Text(
@@ -71,7 +88,7 @@ class _LoginState extends State<Login> {
               controller: _passwordController,
               obscureText: _obscureText,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Senha',
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -81,15 +98,16 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loginWithEmail,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[700],
-                foregroundColor: Colors.white, // Cor do botão
-                disabledBackgroundColor:
-                    Color.fromARGB(248, 237, 3, 226), // Cor do texto
-                disabledForegroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
               child: Text('Login com Email'),
             ),
@@ -98,20 +116,56 @@ class _LoginState extends State<Login> {
               onPressed: _loginWithGoogle,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[700],
-                foregroundColor: Colors.white, // Cor do botão
-                disabledBackgroundColor:
-                    Color.fromARGB(248, 237, 3, 226), // Cor do texto
-                disabledForegroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons
-                      .email_outlined), // Ícone do Google (substitua por ícone apropriado)
+                  Icon(Icons.email_outlined),
                   SizedBox(width: 10),
                   Text('Login com Google'),
                 ],
               ),
+            ),
+            SizedBox(height: 24),
+            Center(
+              child: Text(
+                'Ainda não tem uma conta?',
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: _navigateToCadastro,
+                  child: Text(
+                    'Cadastrar-se',
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+                GestureDetector(
+                  onTap: _navigateToRecuperarSenha,
+                  child: Text(
+                    'Esqueceu a senha?',
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Spacer(),
             Center(

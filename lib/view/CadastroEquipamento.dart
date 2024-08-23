@@ -18,19 +18,6 @@ class _CadastroEquipamentoState extends State<CadastroEquipamento> {
 
   bool _isVenda = false;
   bool _isAluguel = false;
-  // XFile? _image; // Para armazenar a imagem selecionada
-  // final ImagePicker _picker = ImagePicker();
-
-  /*
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery, // Você pode alterar para ImageSource.camera para tirar uma foto
-    );
-    setState(() {
-      _image = pickedFile;
-    });
-  }
-  */
 
   @override
   Widget build(BuildContext context) {
@@ -46,32 +33,6 @@ class _CadastroEquipamentoState extends State<CadastroEquipamento> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              // Seção para selecionar a imagem do equipamento
-              /*
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    _image == null
-                        ? Text('Nenhuma imagem selecionada.')
-                        : Image.file(
-                            File(_image!.path),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _pickImage,
-                      child: Text('Selecionar Imagem'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[700],
-                        disabledBackgroundColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              */
               SizedBox(height: 16.0),
               TextFormField(
                 controller: _nomeController,
@@ -192,15 +153,14 @@ class _CadastroEquipamentoState extends State<CadastroEquipamento> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.blue[700], // Cor do botão "Cadastrar"
-                      disabledBackgroundColor:
-                          Colors.white, // Cor do texto do botão
+                      backgroundColor: Colors.blue[700],
                     ),
                     child: Text(
                       'Cadastrar',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold), // Texto em negrito
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   OutlinedButton(
@@ -208,12 +168,16 @@ class _CadastroEquipamentoState extends State<CadastroEquipamento> {
                       Navigator.pop(context); // Volta para a tela anterior
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white, // Cor de fundo do botão
-                      disabledBackgroundColor:
-                          Colors.black, // Cor do texto do botão
-                      side: BorderSide(color: Colors.black), // Cor da borda
+                      backgroundColor: Colors.white,
+                      side: BorderSide(color: Colors.black),
                     ),
-                    child: Text('Cancelar'),
+                    child: Text(
+                      'Cancelar',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
