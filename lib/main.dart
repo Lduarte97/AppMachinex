@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: Login(),
-      home: Cadastro(),
-      //home: CadastroEquipamento(),
+      //home: Cadastro(),
+      home: CadastroEquipamento(),
       //home: ListaEquipamentos(),
     );
   }
