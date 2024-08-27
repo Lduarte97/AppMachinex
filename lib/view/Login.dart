@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/view/Cadastro.dart';
+import 'package:projeto/view/ListaEquipamentos.dart';
+import 'package:projeto/view/RecuperarSenha.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -6,6 +9,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  newMethod() {}
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscureText = true;
@@ -20,14 +25,14 @@ class _LoginState extends State<Login> {
     final email = _emailController.text;
     final password = _passwordController.text;
     print('Email: $email, Password: $password');
+    Navigator.pushNamed(
+        context, '/home'); // Navega para a tela 'Lista de equipamentos'
   }
 
   void _loginWithGoogle() {
     print('Login com Google');
-  }
-
-  void _navigateToCadastro() {
-    print('Navegar para tela de cadastro');
+    Navigator.pushNamed(
+        context, '/home'); // Leva até a tela "Lista de equipamentos"
   }
 
   void _navigateToRecuperarSenha() {
@@ -138,12 +143,16 @@ class _LoginState extends State<Login> {
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
-            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: _navigateToCadastro,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Cadastro()),
+                    );
+                  },
                   child: Text(
                     'Cadastrar-se',
                     style: TextStyle(
@@ -155,7 +164,12 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(width: 20),
                 GestureDetector(
-                  onTap: _navigateToRecuperarSenha,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecuperarSenha()),
+                    );
+                  },
                   child: Text(
                     'Esqueceu a senha?',
                     style: TextStyle(

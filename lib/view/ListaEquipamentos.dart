@@ -74,7 +74,7 @@ class ListaEquipamentos extends StatelessWidget {
               leading: Icon(Icons.add),
               title: Text('Cadastro de equipamento'),
               onTap: () {
-                _navigateTo(context, '/cadastro');
+                Navigator.pushNamed(context, '/CadastroEquipamentos');
               },
             ),
             ListTile(
