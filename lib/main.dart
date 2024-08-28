@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
-import 'view/Login.dart'; // caminho da tela de login
+import 'view/perfilUsuario.dart'; // Certifique-se de importar o arquivo correto
+import 'view/login.dart'; // Certifique-se de importar o arquivo correto
+import 'view/cadastro.dart'; // Certifique-se de importar o arquivo correto
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Projeto App',
+      title: 'App de Controle de Peso',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
+        useMaterial3: true, // Correção aqui: deve ser useMaterial3, não useMateria13
       ),
-      home: Login(),
+      home: UserProfile(), // Inicializa o widget UserProfile
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Login(), // Tela Login (Certifique-se de que a classe Login existe e está corretamente importada)
+        '/cadastro': (context) => Cadastro(), // Tela Cadastro (Certifique-se de que a classe Cadastro existe e está corretamente importada)
+        '/home': (context) => home(), // Tela Home (Certifique-se de que a classe Home existe e está corretamente importada)
+        '/registroIMC': (context) => UserProfile(), // Tela RegistroIMC (Certifique-se de que a classe RegistroIMC existe e está corretamente importada)
+        
+      },
     );
   }
-}
+  
+  
+
+
+

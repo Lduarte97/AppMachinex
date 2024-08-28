@@ -1,9 +1,6 @@
+import 'dart:io'; // Importa para usar File
 import 'package:flutter/material.dart';
-import 'package:projeto/main.dart';
-
-void main() {
-  runApp(const MyApp());
-}
+import 'package:image_picker/image_picker.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -16,6 +13,50 @@ class _UserProfileState extends State<UserProfile> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+
+  File? _profileImage;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _showImageSourceOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Galeria'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.gallery);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Câmera'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.camera);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void _saveProfile() {
     // Função de salvar o perfil
@@ -55,7 +96,7 @@ class _UserProfileState extends State<UserProfile> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Image.asset(
-                'assets/logo.png', // Certifique-se de que o caminho esteja correto
+                'assets/logo.png', // Verifique se o caminho está correto
                 height: 40,
               ),
             ),
@@ -75,10 +116,19 @@ class _UserProfileState extends State<UserProfile> {
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage:
-                      AssetImage('assets/profile.png'), // Foto do perfil
+                GestureDetector(
+                  onTap: _showImageSourceOptions,
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : const AssetImage('assets/profile.png')
+                            as ImageProvider,
+                    child: _profileImage == null
+                        ? const Icon(Icons.camera_alt,
+                            size: 50, color: Colors.white)
+                        : null,
+                  ),
                 ),
                 SizedBox(width: 16),
                 Expanded(
