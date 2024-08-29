@@ -36,7 +36,7 @@ class Bancodedados {
       path, // Procura ver se já existe ou não através do caminho
       version: 2, // Versão do banco de dados
       onCreate: _onCreate, // Método chama a criação do banco de dados
-      onUpgrade: _onUpgrade, // Atualiza o banco de dados caso exista
+      //onUpgrade: _onUpgrade, // Atualiza o banco de dados caso exista
     );
   }
 
