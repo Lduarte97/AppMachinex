@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/control/userController.dart';
+import 'package:projeto/model/usuarios.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -8,11 +10,12 @@ class Cadastro extends StatefulWidget {
 class _CadastroState extends State<Cadastro> {
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
+  final _telefoneController = TextEditingController();
   final _enderecoController = TextEditingController();
   final _cpfController = TextEditingController();
   final _cnpjController = TextEditingController();
   final _senhaController = TextEditingController();
-  final _dataNascimentoController = TextEditingController();
+
 
   String _tipoDocumento = 'CPF';
   String _sexo = 'Masculino';
@@ -24,25 +27,66 @@ class _CadastroState extends State<Cadastro> {
     });
   }
 
-  void _cadastrar() {
+  /*void _cadastrar() {
     // Lógica de cadastro
     final nome = _nomeController.text;
     final email = _emailController.text;
+    final telefone = _telefoneController.text;
     final endereco = _enderecoController.text;
     final cpf = _tipoDocumento == 'CPF' ? _cpfController.text : '';
     final cnpj = _tipoDocumento == 'CNPJ' ? _cnpjController.text : '';
     final senha = _senhaController.text;
-    final dataNascimento = _dataNascimentoController.text;
+    final sexo = _sexo.text;
+  
 
     // Implementar lógica de cadastro aqui
     print(
-        'Nome: $nome, Email: $email, Endereço: $endereco, CPF: $cpf, CNPJ: $cnpj, Data de Nascimento: $dataNascimento, Senha: $senha, Sexo: $_sexo');
-  }
+        'Nome: $nome, Email: $email, Telefone: $telefone, Endereço: $endereco, CPF: $cpf, CNPJ: $cnpj, Senha: $senha, Sexo: $_sexo');
+  }*/
 
   void _cancelar() {
     // Lógica para cancelar ou voltar para outra tela
     Navigator.pop(context);
   }
+  //criar metodo salvar cadastro
+  void salvarcadastro() async{
+    // try catch serve para tratar erros 
+
+    try{
+      // variável da classe usar controller
+      // variável me permite chamar o metodo de salvar usuário
+      Usercontroller usercontroller = Usercontroller();
+
+      //salvar os dados que o usuário gigitou na classe model
+
+      Usuarios usuario = Usuarios(
+        cpf_ou_cnpj : _cpfController.text,
+        nome_usuarios: _nomeController.text,
+        email: _emailController.text,
+        telefone: _telefoneController.text,
+        endereco: _enderecoController.text,
+        senha: _senhaController.text,
+        tipo_usuario: _tipoDocumento,
+        sexo: _sexo,
+      );
+
+      //salvar usuário
+      int userId = await usercontroller.addUser(usuario);
+      // criando uma variável do tipo int para guardar o id do novo
+      // usuario criado, e manda ao banco de dados o novo usuário
+      // metodo de adicionar um novo usuário
+
+        //mensagem de sucesso para o cadastro
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Cadastro realizado com sucesso!'),
+            backgroundColor: Colors.green, //mensagem em caixa verde
+            duration: Duration(seconds: 5),//mensagem dura 5 segundos
+          ),
+        );
+    }catch{
+
+    }
+  }//final do metodo salvar cadastro
 
   @override
   Widget build(BuildContext context) {
@@ -120,15 +164,8 @@ class _CadastroState extends State<Cadastro> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _dataNascimentoController,
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                  labelText: 'Data de Nascimento',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+
+
               SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: _sexo,
@@ -169,7 +206,7 @@ class _CadastroState extends State<Cadastro> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   ElevatedButton(
-                    onPressed: _cadastrar,
+                    onPressed:(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[700], // Cor do botão
                       foregroundColor: Colors.white, // Cor do texto
