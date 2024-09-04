@@ -53,7 +53,8 @@ class Bancodedados {
       Telefone TEXT not null,
       Endereco TEXT not null,
       Senha TEXT not null,
-      Tipo_usuario TEXT
+      Tipo_usuario TEXT,
+      Sexo TEXT
       )
 '''); //fim da tabela Usuários
     await db.execute('''
