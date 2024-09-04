@@ -15,7 +15,8 @@ class _CadastroState extends State<Cadastro> {
   final _cpfController = TextEditingController();
   final _cnpjController = TextEditingController();
   final _senhaController = TextEditingController();
-
+  // ignore: unused_field
+  final _sexoController = TextEditingController();
 
   String _tipoDocumento = 'CPF';
   String _sexo = 'Masculino';
@@ -48,11 +49,12 @@ class _CadastroState extends State<Cadastro> {
     // Lógica para cancelar ou voltar para outra tela
     Navigator.pop(context);
   }
-  //criar metodo salvar cadastro
-  void salvarcadastro() async{
-    // try catch serve para tratar erros 
 
-    try{
+  //criar metodo salvar cadastro
+  void salvarcadastro() async {
+    // try catch serve para tratar erros
+
+    try {
       // variável da classe usar controller
       // variável me permite chamar o metodo de salvar usuário
       Usercontroller usercontroller = Usercontroller();
@@ -60,7 +62,7 @@ class _CadastroState extends State<Cadastro> {
       //salvar os dados que o usuário gigitou na classe model
 
       Usuarios usuario = Usuarios(
-        cpf_ou_cnpj : _cpfController.text,
+        cpf_ou_cnpj: _cpfController.text,
         nome_usuarios: _nomeController.text,
         email: _emailController.text,
         telefone: _telefoneController.text,
@@ -76,17 +78,24 @@ class _CadastroState extends State<Cadastro> {
       // usuario criado, e manda ao banco de dados o novo usuário
       // metodo de adicionar um novo usuário
 
-        //mensagem de sucesso para o cadastro
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Cadastro realizado com sucesso!'),
-            backgroundColor: Colors.green, //mensagem em caixa verde
-            duration: Duration(seconds: 5),//mensagem dura 5 segundos
-          ),
-        );
-    }catch{
-
+      //mensagem de sucesso para o cadastro
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Cadastro realizado com sucesso!'),
+          backgroundColor: Colors.green, //mensagem em caixa verde
+          duration: Duration(seconds: 5), //mensagem dura 5 segundos
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Cadastro não realizado!"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 5),
+        ),
+      );
     }
-  }//final do metodo salvar cadastro
+  } //final do metodo salvar cadastro
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +173,6 @@ class _CadastroState extends State<Cadastro> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-
-
               SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: _sexo,
@@ -206,7 +213,7 @@ class _CadastroState extends State<Cadastro> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   ElevatedButton(
-                    onPressed:(),
+                    onPressed: salvarcadastro,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[700], // Cor do botão
                       foregroundColor: Colors.white, // Cor do texto

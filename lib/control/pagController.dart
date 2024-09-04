@@ -6,7 +6,7 @@ class Pagcontroller {
   final Bancodedados bancodedados = Bancodedados();
   // estrura para criar objeto.
 
-  // metodo de cadstro de usuario
+  // metodo de cadstro de pagamento
   Future<int> addPag(Pagamento pagamentos) async {
     // criando uma variavel de banco de dados para salvar os dados.
     final db = await bancodedados.database;
@@ -14,35 +14,26 @@ class Pagcontroller {
     return await db.insert('Pagamento', pagamentos.toMap());
   }
 
-  //metodo de excluir usuário
+  //metodo de excluir pagamento
   Future<int> deletarPagamento(int id) async {
     //cria a variável de banco de dados para acessar os metodos
     final db = await bancodedados.database;
-    // excluir o usuário dentro do banco de dados
+    // excluir o pagamento dentro do banco de dados
     return await db.delete('Pagamento', where: 'id=?', whereArgs: [id]);
-    /*delete o usuário dentro da tabela Usuarios, onde id do usuário
+    /*deleta o pagamento dentro da tabela pagamento, onde id do pagamento
     for igual ao passado no metodo deletarUsuario*/
   }
 
-  // metodo para editar o usuário
-  Future<int> editarPagamento(Pagamento pagamentos) async {
-    //criar variavel de banco de dados para acessar os metodos
-    final db = await bancodedados.database;
-    //atualizar os dados do usuário
-    return await db.update('Pagamento', pagamentos.toMap(),
-        where: 'id= ?', whereArgs: [pagamentos.id_Pagamento]);
-  }
-
-  // metodo de listar usuário
+  // metodo de listar pagamento
 
   Future<List<Pagamento>> getUser() async {
     // criar variavel do banco de dados para usar os metodos
     final db = await bancodedados.database;
-    // criar variavel para receber a lista dos usuarios do banco de dados
+    // criar variavel para receber a lista dos pagamentos do banco de dados
     final List<Map<String, dynamic>> listapagamento =
         await db.query('Pagamento');
     /* Variável do tipo lista, que recebe uma Map de Strings dinamicas que recebe todos
-    os dados da tabela usuário do banco de dados*/
+    os dados da tabela pagamentos do banco de dados*/
     return List.generate(listapagamento.length, (int i) {
       return Pagamento.fromMap(listapagamento[i]);
     });
