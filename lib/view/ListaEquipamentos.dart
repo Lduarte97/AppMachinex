@@ -27,6 +27,48 @@ class ListaEquipamentos extends StatelessWidget {
     Navigator.pushNamed(context, route);
   }
 
+  void _confirmarSaida(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmação de saída'),
+          content: Text('Você realmente deseja sair?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Fecha o pop-up
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                side: BorderSide(color: Colors.black),
+                foregroundColor: Colors.black,
+              ),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (Route<dynamic> route) => false);
+              }, // Navegar para a tela de login
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue[700],
+                foregroundColor: Colors.white,
+              ),
+              child: Text(
+                'Sair',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +123,7 @@ class ListaEquipamentos extends StatelessWidget {
               leading: Icon(Icons.monetization_on),
               title: Text('Transações'),
               onTap: () {
-                _navigateTo(context, '/transacoes');
+                _navigateTo(context, '/Transacao');
               },
             ),
             ListTile(
@@ -109,7 +151,7 @@ class ListaEquipamentos extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Sair'),
               onTap: () {
-                Navigator.pop(context); // Implementar lógica de saída
+                _confirmarSaida(context); // Chama o pop-up de confirmação
               },
             ),
           ],

@@ -2,130 +2,135 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class Bancodedados {
-  //classe para criar o banco de dados
+  // Classe para criar o banco de dados
 
-  //criar uma instancia de banco de dados
+  // Criar uma instância do banco de dados
   static final Bancodedados _instancia = Bancodedados._internal();
-  //instanciando
+
+  // Instanciando
   factory Bancodedados() => _instancia;
 
-  // protocolo de segurança contra instancias duplicadas
+  // Protocolo de segurança contra instâncias duplicadas
   Bancodedados._internal();
 
-  //referencia para o banco de dados
+  // Referência para o banco de dados
   static Database? _database;
 
-  //get para acesar o banco de dados
-  //async define o trabalho assincrono
+  // Getter para acessar o banco de dados
+  // async define o trabalho assíncrono
   Future<Database> get database async {
     if (_database != null) return _database!;
-    // verifica se o banco de dados é diferentes de nulo e se for retorna
+    // Verifica se o banco de dados é diferente de nulo e, se for, retorna
 
-    // inicializar o banco de dados não tenha sido iniciado
+    // Inicializar o banco de dados se ainda não tiver sido iniciado
     _database = await _initDatabase();
-    return _database!; // retorna o banco de dados iniciado
+    return _database!; // Retorna o banco de dados iniciado
   }
 
-  // metodo de inialização privada do banco de dados
-
+  // Método de inicialização privada do banco de dados
   Future<Database> _initDatabase() async {
-    // Obter o caminho do diretorio do banco de dados
+    // Obter o caminho do diretório do banco de dados
     String path = join(await getDatabasesPath(), 'user.machinex.db');
-    //user_database.db é o nome do banco de dados
-    // abre o banco de dados, e caso ele não exista, o metodo cria o BD
+    // 'user.machinex.db' é o nome do banco de dados
+    // Abre o banco de dados e, caso ele não exista, o método cria o BD
     return openDatabase(
       path,
-      version: 2, //versão do banco de dados
-      onCreate: _onCreate, // metodo chama a criação do banco de dados
-
-      //onUpgrade: _onUpgrade, //atualiza o banco de dados caso exista
+      version: 2, // Versão do banco de dados
+      onCreate: _onCreate, // Método para criar o banco de dados
+      // onUpgrade: _onUpgrade, // Atualiza o banco de dados caso exista
     );
   }
 
-  //metodo de criação do banco de dados
+  // Método de criação do banco de dados
   Future _onCreate(Database db, int version) async {
-    //criando as tabelas
+    // Criando as tabelas
     await db.execute('''
       CREATE TABLE Usuarios(
-      id_usuarios INTERGER PRIMARY KEY AUTOINCREMENT not null,
-      Cpf_ou_cnpj TEXT not null,
-      Email TEXT not null ,
-      Telefone TEXT not null,
-      Endereco TEXT not null,
-      Senha TEXT not null,
+      id_usuarios INTEGER PRIMARY KEY AUTOINCREMENT,
+      Cpf_ou_cnpj TEXT NOT NULL,
+      nome_usuarios TEXT NOT NULL,
+      Email TEXT NOT NULL,
+      Telefone TEXT NOT NULL,
+      Endereco TEXT NOT NULL,
+      Senha TEXT NOT NULL,
       Tipo_usuario TEXT,
       Sexo TEXT
       )
-'''); //fim da tabela Usuários
+    ''');
+
     await db.execute('''
       CREATE TABLE Equipamento(
-      id_equipamento INTERGER PRIMARY KEY AUTOINCREMENT not null,
-      Nome_equipamento TEXT not null,
-      Descricao TEXT not null,
-      Status_equipamento TEXT not null,
-      Intencao TEXT not null,
+      id_equipamento INTEGER PRIMARY KEY AUTOINCREMENT,
+      Nome_equipamento TEXT NOT NULL,
+      Descricao TEXT NOT NULL,
+      Status_equipamento TEXT NOT NULL,
+      Intencao TEXT NOT NULL,
       Valor_venda REAL,
       Valor_aluguel REAL,
-      UsuarioId INTEREGE,
-      FOREIGN KEY(UsuarioId) REFERENCES Usuarios(id_usuarios),
-      ),
-'''); //fim da tabela Equipamento
+      UsuarioId INTEGER,
+      FOREIGN KEY(UsuarioId) REFERENCES Usuarios(id_usuarios)
+      )
+    ''');
+
     await db.execute('''
       CREATE TABLE Transacao(
-      id_transacao INTERGER PRIMARY KEY AUTOINCREMENT not null,
-      Tipo_transacao TEXT not null,
-      Data_transacao DATE not null ,
-      Valor_total REAL not null,
-      Taxa_paltaforma REAL not null,
+      id_transacao INTEGER PRIMARY KEY AUTOINCREMENT,
+      Tipo_transacao TEXT NOT NULL,
+      Data_transacao DATE NOT NULL,
+      Valor_total REAL NOT NULL,
+      Taxa_paltaforma REAL NOT NULL,
       UsuarioIdEquip INTEGER,
       EquipamentoID INTEGER,
-      FOREIGN KEY(UsuarioIdEquip) REFERENCES Usuarios(id_Usuarios),
-      FOREIGN KEY(EquipamentoID) REFRENCES Equipamento(id_equipamento),
-      ),
-'''); //fim da tabela Transacao
+      FOREIGN KEY(UsuarioIdEquip) REFERENCES Usuarios(id_usuarios),
+      FOREIGN KEY(EquipamentoID) REFERENCES Equipamento(id_equipamento)
+      )
+    ''');
+
     await db.execute('''
       CREATE TABLE Pagamento(
-      id_pagamento INTERGER PRIMARY KEY AUTOINCREMENT not null,
-      Forma_pagamento TEXT not null,
-      Valor_pagamento REAL not null ,
-      Status_pagamento TEXT not null,
-      Data_pag DATE not null,
+      id_pagamento INTEGER PRIMARY KEY AUTOINCREMENT,
+      Forma_pagamento TEXT NOT NULL,
+      Valor_pagamento REAL NOT NULL,
+      Status_pagamento TEXT NOT NULL,
+      Data_pag DATE NOT NULL,
       transacaoId INTEGER,
-      FOREIGN KEY (transacaoId) REFRENCES Transacao (id_transacao),
-      ),
-'''); //fim da tabela pagamento
+      FOREIGN KEY (transacaoId) REFERENCES Transacao(id_transacao)
+      )
+    ''');
+
     await db.execute('''
       CREATE TABLE Avaliacao(
-      id_avaliacao INTERGER PRIMARY KEY AUTOINCREMENT not null,
-      Nota INTEGER not null,
-      Data_ava DATE not null ,
-      Comentario TEXT not null,
+      id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT,
+      Nota INTEGER NOT NULL,
+      Data_ava DATE NOT NULL,
+      Comentario TEXT NOT NULL,
       IdUsuarioAva INTEGER,
-      FOREIGN KEY (IdUsuarioAva) REFERENCES Usuarios(id_usuarios),
-      ),
-'''); //fim da tabela avaliacao
+      FOREIGN KEY (IdUsuarioAva) REFERENCES Usuarios(id_usuarios)
+      )
+    ''');
+
     await db.execute('''
       CREATE TABLE Anuncio(
-      id_anuncio INTERGER PRIMARY KEY AUTOINCREMENT not null,
+      id_anuncio INTEGER PRIMARY KEY AUTOINCREMENT,
       Data_da_Criacao DATE,
-      Situacao TEXT not null ,
-      Tipo_anuncio TEXT not null,
+      Situacao TEXT NOT NULL,
+      Tipo_anuncio TEXT NOT NULL,
       IdUsuarioAnu INTEGER,
       IdEquip INTEGER,
       FOREIGN KEY (IdUsuarioAnu) REFERENCES Usuarios(id_usuarios),
-      FOREIGN KEY (IdEquip) REFERENCES Equipamento(id_equipamento ),
-      ),
-''');
-  } //fim do metodo de criação do banco de dados
+      FOREIGN KEY (IdEquip) REFERENCES Equipamento(id_equipamento)
+      )
+    ''');
+  } // Fim do método de criação do banco de dados
 
-  //metodo para atualizar banco de dados caso queira mudar
+  // Método para atualizar banco de dados caso queira mudar
 
-  //atualiza o banco de dados da versão 1 para 2, e assim em diante
+  // Atualiza o banco de dados da versão 1 para 2, e assim em diante
   /*Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute('''
-
-''');
+        -- Adicione as instruções de atualização aqui
+      ''');
     }
   }*/
 }

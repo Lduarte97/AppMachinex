@@ -89,7 +89,7 @@ class _CadastroState extends State<Cadastro> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Cadastro não realizado!"),
+          content: Text("Cadastro não realizado! $e"),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 5),
         ),

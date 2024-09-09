@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/control/LoginController.dart';
+import 'package:projeto/model/usuarios.dart';
 import 'package:projeto/view/Cadastro.dart';
 import 'package:projeto/view/ListaEquipamentos.dart';
 
@@ -34,6 +36,52 @@ class _LoginState extends State<Login> {
 
   void _navigateToRecuperarSenha() {
     print('Navegar para tela de recuperação de senha');
+  }
+
+  //metodo para o usuário logar
+
+  Future<void> logindousuario() async {
+    //criar try catch para tratar erros
+
+    try {
+      //variavel para acessar o loginController
+      final Logincontroller _loginController = Logincontroller();
+      /*criar um objeto da tela model do usuário
+      nesse método ele manda email e senha para o controller
+      que verifica se a senha e email existem no banco de dados
+      e se existir, retorna os dados do usuário a quem pertencem*/
+      Usuarios? usuario = await _loginController.loginWithEmailPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+      //verifica se o usuário retornado em usuário vázio
+
+      if (usuario != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ListaEquipamentos(),
+          ),
+        );
+      } else {
+        //não encontrol ninguem com email e senha informados
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Senha ou E-mail Incorretos!"),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 10),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro ao Entrar!"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 10),
+        ),
+      );
+    }
   }
 
   @override
@@ -102,7 +150,7 @@ class _LoginState extends State<Login> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _loginWithEmail,
+              onPressed: logindousuario,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[700],
                 foregroundColor: Colors.white,

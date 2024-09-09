@@ -1,5 +1,5 @@
 import 'package:projeto/model/bancoDeDados.dart';
-import 'package:projeto/model/Pagamento.dart';
+import 'package:projeto/model/pagamento.dart';
 
 class Pagcontroller {
 // start na banco de dados
@@ -26,7 +26,7 @@ class Pagcontroller {
 
   // metodo de listar pagamento
 
-  Future<List<Pagamento>> getUser() async {
+  Future<List<Pagamento>> getPag() async {
     // criar variavel do banco de dados para usar os metodos
     final db = await bancodedados.database;
     // criar variavel para receber a lista dos pagamentos do banco de dados

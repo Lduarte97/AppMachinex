@@ -30,7 +30,6 @@ class Usuarios {
     return {
       'id_usuarios': id_usuarios,
       'cpf_ou_cnpj': cpf_ou_cnpj,
-      'nome_usuario': nome_usuarios,
       'nome_usuarios': nome_usuarios,
       'email': email,
       'telefone': telefone,
