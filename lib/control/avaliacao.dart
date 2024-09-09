@@ -25,7 +25,7 @@ class AvaliacaoController {
       'avaliacao',
       avaliacao.toMap(),
       where: 'id_avaliacao = ?',
-      whereArgs: [avaliacao.idAvaliacao],
+      whereArgs: [avaliacao.id_avaliacao],
     );
   }
 

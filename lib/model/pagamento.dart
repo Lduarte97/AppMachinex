@@ -1,41 +1,46 @@
 class Pagamento {
-  int? idPagamento;
-  String? formaPagamento;
-  double? valorPagamento;
-  String? statusPagamento;
-  DateTime? dataPag;
+  // Declaração das variáveis da classe com null safety
+  int? id_pagamento;
+  String? forma_pagamento;
+  double? valor_pagamento;
+  String? status_pagamento;
+  DateTime? data_pag;
+  int? id_transacao;
 
   // Construtor da classe
   Pagamento({
-    this.idPagamento,
-    this.formaPagamento,
-    this.valorPagamento,
-    this.statusPagamento,
-    this.dataPag,
+    this.id_pagamento,
+    this.forma_pagamento,
+    this.valor_pagamento,
+    this.status_pagamento,
+    this.data_pag,
+    this.id_transacao,
   });
 
   // Método para converter o objeto em um Map
   Map<String, dynamic> toMap() {
     return {
-      'id_pagamento': idPagamento,
-      'forma_pagamento': formaPagamento,
-      'valor_pagamento': valorPagamento,
-      'status_pagamento': statusPagamento,
-      'data_pag': dataPag
+      'id_pagamento': id_pagamento,
+      'forma_pagamento': forma_pagamento,
+      'valor_pagamento': valor_pagamento,
+      'status_pagamento': status_pagamento,
+      'data_pag': data_pag
           ?.toIso8601String(), // Converte DateTime para String no formato ISO 8601
+      'id_transacao': id_transacao,
     };
   }
 
   // Método factory para criar um objeto da classe a partir de um Map
   factory Pagamento.fromMap(Map<String, dynamic> map) {
     return Pagamento(
-      idPagamento: map['id_pagamento'],
-      formaPagamento: map['forma_pagamento'],
-      valorPagamento: map['valor_pagamento'],
-      statusPagamento: map['status_pagamento'],
-      dataPag: map['data_pag'] != null
+      id_pagamento: map['id_pagamento'],
+      forma_pagamento: map['forma_pagamento'],
+      valor_pagamento: map['valor_pagamento'],
+      status_pagamento: map['status_pagamento'],
+      data_pag: map['data_pag'] != null
           ? DateTime.parse(map['data_pag'])
           : null, // Converte String para DateTime
+      id_transacao: map['id_transacao'],
     );
   }
 }

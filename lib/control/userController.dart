@@ -10,7 +10,7 @@ class Usercontroller {
 
   //metodo de cadastro fr usuario
   //User é o nome da classe model de vocês
-  Future<int> addUser(Usuarios usuario) async {
+  Future<int> addUser(Usuario usuario) async {
     //criando uma variavel de banco de dados para salvar os dados.
     //serve para conectar o metodo ao banco de dados
     final db = await bancodados.database;
@@ -31,18 +31,18 @@ class Usercontroller {
   }
 
   //metodo para editar o usuário
-  Future<int> editarUsuario(Usuarios usuarios) async {
+  Future<int> editarUsuario(Usuario usuarios) async {
     //criar variavel de banco de dados acessar os metodos
     final db = await bancodados.database;
     //atualizar os dados do usuário no banco de dados
     return await db.update('user', usuarios.toMap(),
-        where: "id=?", whereArgs: [usuarios.id]);
+        where: "id=?", whereArgs: [Usuario.id]);
     /*atualize dentro da tabela user, os dados novos dos usuarios
   onde id da tabela do usuário é igual id do usuário passado */
   }
 
 //metodo de lista usuário
-  Future<List<Usuarios>> getUser() async {
+  Future<List<Usuario>> getUser() async {
 //criar variavel do banco de dados para usar os metodos
     final db = await bancodados.database;
     //criar variavel para receber a lista dos usuário de banco de dados
@@ -50,7 +50,7 @@ class Usercontroller {
     /*variavel do tipo lista, que recebe uma Map de String dinamicas 
     que recebe todos os dados da tabela usuário do banco de dados */
     return List.generate(listadeusario.length, (int i) {
-      return Usuarios.fromMap(listadeusario[i]);
+      return Usuario.fromMap(listadeusario[i]);
     });
   }
 }//fim da classe UserController

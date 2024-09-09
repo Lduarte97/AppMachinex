@@ -1,37 +1,42 @@
 class Avaliacao {
-  int? idAvaliacao;
+  // Declaração das variáveis da classe com null safety
+  int? id_avaliacao;
   int? nota;
-  DateTime? date;
+  DateTime? data_ava;
   String? comentario;
+  int? id_usuarios;
 
   // Construtor da classe
   Avaliacao({
-    this.idAvaliacao,
+    this.id_avaliacao,
     this.nota,
-    this.date,
+    this.data_ava,
     this.comentario,
+    this.id_usuarios,
   });
 
   // Método para converter o objeto em um Map
   Map<String, dynamic> toMap() {
     return {
-      'id_avaliacao': idAvaliacao,
+      'id_avaliacao': id_avaliacao,
       'nota': nota,
-      'date': date
+      'data_ava': data_ava
           ?.toIso8601String(), // Converte DateTime para String no formato ISO 8601
       'comentario': comentario,
+      'id_usuarios': id_usuarios,
     };
   }
 
   // Método factory para criar um objeto da classe a partir de um Map
   factory Avaliacao.fromMap(Map<String, dynamic> map) {
     return Avaliacao(
-      idAvaliacao: map['id_avaliacao'],
+      id_avaliacao: map['id_avaliacao'],
       nota: map['nota'],
-      date: map['date'] != null
-          ? DateTime.parse(map['date'])
+      data_ava: map['data_ava'] != null
+          ? DateTime.parse(map['data_ava'])
           : null, // Converte String para DateTime
       comentario: map['comentario'],
+      id_usuarios: map['id_usuarios'],
     );
   }
 }

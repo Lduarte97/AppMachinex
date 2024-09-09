@@ -25,7 +25,7 @@ class AnuncioController {
       'anuncio',
       anuncio.toMap(),
       where: 'id_anuncio = ?',
-      whereArgs: [anuncio.idAnuncio],
+      whereArgs: [anuncio.id_anuncio],
     );
   }
 

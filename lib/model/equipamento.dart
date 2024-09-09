@@ -1,46 +1,51 @@
 class Equipamento {
-  int? idEquipamento;
-  String? nomeEquipamento;
+  // Declaração das variáveis da classe com null safety
+  int? id_equipamento;
+  String? nome_equipamento;
   String? descricao;
-  String? statusEquipamento;
+  String? status_equipamento;
   String? intencao;
-  double? valorVenda;
-  double? valorAluguel;
+  double? valor_venda;
+  double? valor_aluguel;
+  int? id_usuarios;
 
   // Construtor da classe
   Equipamento({
-    this.idEquipamento,
-    this.nomeEquipamento,
+    this.id_equipamento,
+    this.nome_equipamento,
     this.descricao,
-    this.statusEquipamento,
+    this.status_equipamento,
     this.intencao,
-    this.valorVenda,
-    this.valorAluguel,
+    this.valor_venda,
+    this.valor_aluguel,
+    this.id_usuarios,
   });
 
   // Método para converter o objeto em um Map
   Map<String, dynamic> toMap() {
     return {
-      'id_equipamento': idEquipamento,
-      'nome_equipamento': nomeEquipamento,
+      'id_equipamento': id_equipamento,
+      'nome_equipamento': nome_equipamento,
       'descricao': descricao,
-      'status_equipamento': statusEquipamento,
+      'status_equipamento': status_equipamento,
       'intencao': intencao,
-      'valor_venda': valorVenda,
-      'valor_aluguel': valorAluguel,
+      'valor_venda': valor_venda,
+      'valor_aluguel': valor_aluguel,
+      'id_usuarios': id_usuarios,
     };
   }
 
   // Método factory para criar um objeto da classe a partir de um Map
   factory Equipamento.fromMap(Map<String, dynamic> map) {
     return Equipamento(
-      idEquipamento: map['id_equipamento'],
-      nomeEquipamento: map['nome_equipamento'],
+      id_equipamento: map['id_equipamento'],
+      nome_equipamento: map['nome_equipamento'],
       descricao: map['descricao'],
-      statusEquipamento: map['status_equipamento'],
+      status_equipamento: map['status_equipamento'],
       intencao: map['intencao'],
-      valorVenda: map['valor_venda'],
-      valorAluguel: map['valor_aluguel'],
+      valor_venda: map['valor_venda'],
+      valor_aluguel: map['valor_aluguel'],
+      id_usuarios: map['id_usuarios'],
     );
   }
 }

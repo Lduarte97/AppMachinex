@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/view/anuncio.dart';
 import 'package:projeto/view/home.dart';
+import 'package:projeto/view/registro.dart';
 
 //import 'view/Login.dart'; // caminho da tela de login
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: Login(),
-      home: Login(),
+      home: Cadastro(),
     );
   }
 }
