@@ -1,16 +1,10 @@
-# projeto
+## documentação projeto
 
-A new Flutter project.
+## nome do projeto
 
-## Getting Started
+## introdução
 
-This project is a starting point for a Flutter application.
+O MACHINEX é um aplicativo desenvolvido para facilitar a compra, venda e aluguel de ferramentas e equipamentos usados. Através de uma plataforma simples e acessível, os usuários podem anunciar seus equipamentos, negociar diretamente com compradores e vendedores, e realizar transações de forma segura e confiável. O projeto visa incentivar a economia circular, permitindo que equipamentos usados sejam reutilizados, promovendo sustentabilidade e economia para os consumidores.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![ saiba mais ](AppMachinex/docs/introducao.md)
+## arquitetura
