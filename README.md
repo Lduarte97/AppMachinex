@@ -8,3 +8,14 @@ O MACHINEX é um aplicativo desenvolvido para facilitar a compra, venda e alugue
 
 ![ saiba mais ](AppMachinex/docs/introducao.md)
 ## arquitetura
+
+Para a criação do Machinex foi utilizado a arquitetura MVC:
+
+- **Model** : Pasta na qual fica os arquivos de armazenamento de dados do 
+(Usuário, Equipamento, transações e pagamentos).
+- **View** : Pasta no qual fica a interface da aplicação. Telas de Cadastro
+de usuário, Cadastro de equipamentos, Listagem de equipamentos cadastrados, Transações efetuadas, anúncios criados e os pagamentos efetuados.
+- **Control** : Pasta que realiza o processo de intermediação entre **Model** e **View**, sendo responsável pelo gerenciamento dos dados entre telas e banco de dados.
+
+![ saiba mais ](AppMachinex/docs/arquitetura.md)
+

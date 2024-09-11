@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/control/loginController.dart'; // Corrected typo in import
-import 'package:projeto/control/loginCrotoller.dart';
 import 'package:projeto/model/usuarios.dart';
 
 class Login extends StatefulWidget {

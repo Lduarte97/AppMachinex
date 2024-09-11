@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/view/anuncio.dart';
 import 'package:projeto/view/home.dart';
-import 'package:projeto/view/registro.dart';
-
-//import 'view/Login.dart'; // caminho da tela de login
+import 'package:projeto/view/anuncio.dart';
+import 'package:projeto/view/Avaliacao.dart';
+import 'package:projeto/control/loginController.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: Login(),
-      home: Cadastro(),
+      home: Login(),
     );
   }
 }
