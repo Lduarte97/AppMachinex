@@ -4,8 +4,8 @@ class Pagamento {
   String? forma_pagamento;
   double? valor_pagamento;
   String? status_pagamento;
+  String? status_pag;
   DateTime? data_pag;
-  int? id_transacao;
 
   // Construtor da classe
   Pagamento({
@@ -14,7 +14,6 @@ class Pagamento {
     this.valor_pagamento,
     this.status_pagamento,
     this.data_pag,
-    this.id_transacao,
   });
 
   // Método para converter o objeto em um Map
@@ -26,7 +25,6 @@ class Pagamento {
       'status_pagamento': status_pagamento,
       'data_pag': data_pag
           ?.toIso8601String(), // Converte DateTime para String no formato ISO 8601
-      'id_transacao': id_transacao,
     };
   }
 
@@ -40,7 +38,6 @@ class Pagamento {
       data_pag: map['data_pag'] != null
           ? DateTime.parse(map['data_pag'])
           : null, // Converte String para DateTime
-      id_transacao: map['id_transacao'],
     );
   }
 }
