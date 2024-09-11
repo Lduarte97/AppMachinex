@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/control/loginController.dart'; // Corrected typo in import
-import 'package:projeto/control/loginCrotoller.dart';
+import 'package:projeto/control/LoginController.dart';
 import 'package:projeto/model/usuarios.dart';
+import 'package:projeto/view/Cadastro.dart';
+import 'package:projeto/view/ListaEquipamentos.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,163 +10,226 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obscureText = true;
 
-  void _showDialog(String title, String content) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
-  Future<void> _handleEmailPasswordLogin() async {
+  void _loginWithEmail() {
     final email = _emailController.text;
     final password = _passwordController.text;
+    print('Email: $email, Password: $password');
+    Navigator.pushNamed(
+        context, '/home'); // Navega para a tela 'Lista de equipamentos'
+  }
+
+  void _loginWithGoogle() {
+    print('Login com Google');
+    Navigator.pushNamed(
+        context, '/home'); // Leva até a tela "Lista de equipamentos"
+  }
+
+  void _navigateToRecuperarSenha() {
+    print('Navegar para tela de recuperação de senha');
+  }
+
+  //metodo para o usuário logar
+
+  Future<void> logindousuario() async {
+    //criar try catch para tratar erros
 
     try {
-      final LoginController _loginController = LoginController();
-      Usuario? user = await _loginController.loginWithEmailPassword(
-        email,
-        password,
+      //variavel para acessar o loginController
+      final Logincontroller _loginController = Logincontroller();
+      /*criar um objeto da tela model do usuário
+      nesse método ele manda email e senha para o controller
+      que verifica se a senha e email existem no banco de dados
+      e se existir, retorna os dados do usuário a quem pertencem*/
+      Usuarios? usuario = await _loginController.loginWithEmailPassword(
+        _emailController.text,
+        _passwordController.text,
       );
+      //verifica se o usuário retornado em usuário vázio
 
-      if (user != null) {
-        // Navigate to another screen or show success message
-        Navigator.pushReplacementNamed(context, '/home'); // Example navigation
+      if (usuario != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ListaEquipamentos(),
+          ),
+        );
       } else {
-        _showDialog('Login Failed', 'Invalid email or password.');
+        //não encontrol ninguem com email e senha informados
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Senha ou E-mail Incorretos!"),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 10),
+          ),
+        );
       }
     } catch (e) {
-      _showDialog('Login Error', 'An error occurred. Please try again.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro ao Entrar!"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 10),
+        ),
+      );
     }
-  }
-
-  void _handleGoogleLogin() {
-    // Implement Google login logic here
-    _showDialog('Login com Google', 'Login com Google não implementado.');
-  }
-
-  void _handleFacebookLogin() {
-    // Implement Facebook login logic here
-    _showDialog('Login com Facebook', 'Login com Facebook não implementado.');
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[700],
       appBar: AppBar(
-        backgroundColor: Colors.blue[700],
+        backgroundColor: Color.fromARGB(255, 73, 100, 232),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/download.png', // Caminho da imagem atualizado
-              height: 40,
-            ),
+            Icon(Icons.app_registration, size: 40),
             SizedBox(width: 10),
-            Text(
-              'App de Imóveis',
-              style: TextStyle(color: Colors.white),
-            ),
+            Text('Machinex'),
           ],
         ),
-        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Container(
+        color: Color(
+            0xFFEEEEEE), // Cor de fundo ajustada para combinar com a imagem
+        padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Center(
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 100,
+                child: ClipOval(
+                  child: Image.asset(
+                    'lib/assets/logo.png',
+                    height: 250,
+                    width: 250,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Login',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 24),
             TextField(
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email, color: Colors.blue[700]),
               ),
-              keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 16),
             TextField(
               controller: _passwordController,
+              obscureText: _obscureText,
               decoration: InputDecoration(
                 labelText: 'Senha',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock, color: Colors.blue[700]),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: _togglePasswordVisibility,
+                ),
               ),
-              obscureText: true,
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _handleEmailPasswordLogin,
+              onPressed: logindousuario,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[700],
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                minimumSize: Size(double.infinity, 50),
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
-              child: Text('Entrar com Email e Senha'),
+              child: Text('Login com Email'),
             ),
             SizedBox(height: 16),
-            Text('Ou continue com', style: TextStyle(color: Colors.blue[700])),
-            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loginWithGoogle,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[700],
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.email_outlined),
+                  SizedBox(width: 10),
+                  Text('Login com Google'),
+                ],
+              ),
+            ),
+            SizedBox(height: 24),
+            Center(
+              child: Text(
+                'Ainda não tem uma conta?',
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton.icon(
-                  onPressed: _handleGoogleLogin,
-                  icon: Icon(Icons.login, color: Colors.white),
-                  label: Text('Google', style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[700],
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Cadastro()),
+                    );
+                  },
+                  child: Text(
+                    'Cadastrar-se',
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: _handleFacebookLogin,
-                  icon: Icon(Icons.facebook, color: Colors.white),
-                  label:
-                      Text('Facebook', style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[700],
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                SizedBox(width: 20),
+                GestureDetector(
+                  onTap: _navigateToRecuperarSenha,
+                  child: Text(
+                    'Esqueceu a senha?',
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
             ),
+            Spacer(),
+            Center(
+              child: Text(
+                'Desenvolvedor: Lucas Duarte - 2024',
+                style: TextStyle(color: Colors.blue[700]),
+              ),
+            ),
+            SizedBox(height: 10),
           ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Desenvolvido por Paulo Henrique - 2024',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.blue[700]),
-          ),
         ),
       ),
     );

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/view/anuncio.dart';
-import 'package:projeto/view/home.dart';
-import 'package:projeto/view/registro.dart';
-
-//import 'view/Login.dart'; // caminho da tela de login
+import 'package:projeto/view/Login.dart';
+import 'package:projeto/view/Cadastro.dart';
+import 'package:projeto/view/CadastroEquipamento.dart';
+import 'package:projeto/view/ListaEquipamentos.dart';
+import 'package:projeto/view/RecuperarSenha.dart';
+import 'package:projeto/view/Transacao.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,13 +17,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Projeto App',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      //Define as rotas aqui
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Login(), //tela login
+        '/cadastro': (context) => Cadastro(), //tela cadastro de usuário
+        '/home': (context) => ListaEquipamentos(), //tela home
+        '/CadastroEquipamentos': (context) =>
+            CadastroEquipamento(), //Cadastro equipamento
+        '/Recuperação': (context) => RecuperarSenha(),
+        '/Transacao': (context) => Transacao(),
+      },
       //home: Login(),
-      home: Cadastro(),
+      //home: Cadastro(),
+      //home: CadastroEquipamento(),
+      //home: ListaEquipamentos(),
     );
   }
 }
